@@ -14,7 +14,7 @@ connection {
 provisioner "remote-exec" {
          inline = [
                        "sudo apt-get update",
-                       "sudo apt install docker.io",
+                       "sudo apt -y install docker.io",
                        "sudo snap install docker",
                        "sudo docker --version",
                        "sudo docker pull 18273456/covidstat",
