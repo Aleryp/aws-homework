@@ -1,0 +1,51 @@
+name: deployment-run
+
+on: [pull_request, workflow_dispatch]
+
+
+jobs:
+  Deploy-And-Destroy:
+    runs-on: ubuntu-latest
+    permissions:
+        contents: 'read'
+        id-token: 'write'
+    steps:
+      - name: Setup Terraform
+        run: |
+          wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+          unzip terraform_0.12.24_linux_amd64.zip
+          sudo mv terraform /usr/bin/
+          terraform version
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+      - name: Init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run:  cd terraform && terraform init
+      - name: Plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run:  cd terraform && terraform plan
+      - name: Apply
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: cd terraform && terraform apply -auto-approve
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.TOKEN }}
+          approvers: Aleryp
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+      - name: Destroy
+        if: always()
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: cd terraform && terraform destroy -auto-approve
