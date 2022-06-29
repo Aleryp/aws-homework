@@ -15,13 +15,14 @@ provider "aws" {
 }
 
 resource "aws_instance" "app_server" {
-  ami                    = "ami-047e03b8591f2d48a"
+  ami                    = "ami-0071993a96cc5ba57"
   instance_type          = "t2.micro"
   key_name = "terraform-key"
   vpc_security_group_ids = [aws_security_group.main.id]
 
   tags = {
     Name = "Academy-EC2"
+    OS = "UBUNTU"
   }
 }
 
