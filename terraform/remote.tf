@@ -13,13 +13,13 @@ connection {
 
 provisioner "remote-exec" {
          inline = [
-                       "apt update",
-                       "apt install python --yes",
-                       "git copy https://github.com/Aleryp/aws-homework.git",
-                       "cd aws-homework/covidfore",
-                       "pip install --upgrade pip",
-                       "pip install -r requirements.txt",
-                       "python run.py"
+                       "sudo apt update",
+                       "sudo apt install python --yes",
+                       "sudo git copy https://github.com/Aleryp/aws-homework.git",
+                       "sudo cd aws-homework/covidfore",
+                       "sudo pip install --upgrade pip",
+                       "sudo pip install -r requirements.txt",
+                       "sudo python run.py"
                   ]
   }
 }
