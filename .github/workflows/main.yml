@@ -23,16 +23,19 @@ jobs:
         shell: bash
       - name: Init
         env:
+          TF_VAR_ssh_access_key: ${{ secrets.TERRAFORM_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run:  cd terraform && terraform init
+        run:  cd terraform && terraform init -var=""
       - name: Plan
         env:
+          TF_VAR_ssh_access_key: ${{ secrets.TERRAFORM_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run:  cd terraform && terraform plan
       - name: Apply
         env:
+          TF_VAR_ssh_access_key: ${{ secrets.TERRAFORM_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: cd terraform && terraform apply -auto-approve
@@ -46,6 +49,7 @@ jobs:
       - name: Destroy
         if: always()
         env:
+          TF_VAR_ssh_access_key: ${{ secrets.TERRAFORM_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: cd terraform && terraform destroy -auto-approve
