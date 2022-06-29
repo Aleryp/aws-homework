@@ -17,24 +17,16 @@ provider "aws" {
 resource "aws_instance" "app_server" {
   ami                    = "ami-047e03b8591f2d48a"
   instance_type          = "t2.micro"
+  key_name = "terraform-key"
   vpc_security_group_ids = [aws_security_group.main.id]
-
-  user_data = <<-EOL
-  #!/bin/bash -xe
-
-  apt update
-  apt install python --yes
-  git copy https://github.com/Aleryp/aws-homework.git
-  cd aws-homework/covidfore
-  pip install --upgrade pip
-  pip install -r requirements.txt
-  python run.py
-  EOL
-
 
   tags = {
     Name = "Academy-EC2"
   }
+}
+
+output "my-public-ip"{
+       value= aws_instance.instance.public_ip
 }
 
 resource "aws_security_group" "main" {
@@ -61,7 +53,18 @@ resource "aws_security_group" "main" {
       protocol         = "tcp"
       security_groups  = []
       self             = false
-      to_port          = 8000
+      to_port          = 80
+    }
+    {
+      cidr_blocks      = ["0.0.0.0/0", ]
+      description      = ""
+      from_port        = 22
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 22
     }
   ]
 }
