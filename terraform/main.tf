@@ -19,6 +19,19 @@ resource "aws_instance" "app_server" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.main.id]
 
+  user_data = <<-EOL
+  #!/bin/bash -xe
+
+  apt update
+  apt install python --yes
+  git copy https://github.com/Aleryp/aws-homework.git
+  cd aws-homework/covidfore
+  pip install --upgrade pip
+  pip install -r requirements.txt
+  python run.py
+  EOL
+
+
   tags = {
     Name = "Academy-EC2"
   }
