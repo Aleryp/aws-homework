@@ -17,8 +17,7 @@ provisioner "remote-exec" {
                        "sudo apt -y install docker.io",
                        "sudo snap install docker",
                        "sudo docker --version",
-                       "sudo docker pull 18273456/covidstat:v0.2",
-                       "sudo docker run -p 80:80 18273456/covidstat:v0.2",
+                       "sudo docker run -d -p 80:80 18273456/covidstat:v0.2",
                   ]
   }
 }
