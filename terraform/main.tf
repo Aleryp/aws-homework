@@ -26,7 +26,7 @@ resource "aws_instance" "app_server" {
 }
 
 output "my-public-ip"{
-       value= aws_instance.instance.public_ip
+       value= aws_instance.app_server.public_ip
 }
 
 resource "aws_security_group" "main" {

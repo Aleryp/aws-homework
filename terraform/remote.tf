@@ -8,7 +8,7 @@ connection {
        type = "ssh"
        user = "ec2-user"
        private_key = var.ssh_access_key
-       host  = aws_instance.instance.public_ip
+       host  = aws_instance.app_server.public_ip
 }
 
 provisioner "remote-exec" {
