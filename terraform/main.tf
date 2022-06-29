@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "app_server" {
-  ami                    = "ami-0071993a96cc5ba57"
+  ami                    = "ami-0d203747b007677da"
   instance_type          = "t2.micro"
   key_name = "terraform-key"
   vpc_security_group_ids = [aws_security_group.main.id]
