@@ -6,7 +6,7 @@ variable "ssh_access_key" {
 resource "null_resource" "remote"{
 connection {
        type = "ssh"
-       user = "ec2-user"
+       user = "ubuntu"
        private_key = var.ssh_access_key
        host  = aws_instance.app_server.public_ip
 }
